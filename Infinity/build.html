@@ -65,10 +65,12 @@
     transition: border-color .15s, background .15s;
     cursor: default;
   }
-  .slot:hover {
-    border-color: var(--gold);
-    background: #1f1a14;
-    box-shadow: 0 0 10px rgba(199,179,119,.15);
+  @media (hover: hover) and (pointer: fine) {
+    .slot:hover {
+      border-color: var(--gold);
+      background: #1f1a14;
+      box-shadow: 0 0 10px rgba(199,179,119,.15);
+    }
   }
   .slot-label {
     flex: 0 0 64px;
@@ -84,7 +86,9 @@
     font-weight: 600;
     text-shadow: 0 0 6px rgba(144,136,88,.3);
   }
-  .slot:hover .item-name { color: #d8cd8e; }
+  @media (hover: hover) and (pointer: fine) {
+    .slot:hover .item-name { color: #d8cd8e; }
+  }
   /* tooltip */
   #tooltip {
     position: fixed;

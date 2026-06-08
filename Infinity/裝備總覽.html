@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinity 裝備總覽</title>
+<style>
+  :root {
+    --gold: #c7b377;
+    --unique: #908858;
+    --set: #00c000;
+    --rune: #ffa800;
+    --bg: #0a0a0a;
+    --panel: #161210;
+    --border: #3d3120;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    background-image: radial-gradient(ellipse at 50% 0%, #1c1410 0%, #0a0a0a 70%);
+    color: #d0c8b0;
+    font-family: "Noto Sans TC", -apple-system, "Microsoft JhengHei", sans-serif;
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+  }
+  h1 {
+    text-align: center;
+    color: var(--gold);
+    font-size: 32px;
+    letter-spacing: 8px;
+    margin-bottom: 6px;
+    text-shadow: 0 0 12px rgba(199,179,119,.4);
+  }
+  .subtitle {
+    text-align: center;
+    color: #6b6353;
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+  }
+  .container { max-width: 980px; margin: 0 auto; }
+  section { margin-bottom: 44px; }
+  h2 {
+    color: var(--gold);
+    font-size: 20px;
+    letter-spacing: 4px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+  }
+  h2::before { content: "◆ "; color: #7a6a3f; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .slot {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: border-color .15s, background .15s;
+    cursor: default;
+  }
+  .slot:hover {
+    border-color: var(--gold);
+    background: #1f1a14;
+    box-shadow: 0 0 10px rgba(199,179,119,.15);
+  }
+  .slot-label {
+    flex: 0 0 64px;
+    color: #7d7460;
+    font-size: 13px;
+    letter-spacing: 2px;
+    border-right: 1px solid var(--border);
+    padding-right: 10px;
+  }
+  .item-name {
+    color: var(--unique);
+    font-size: 15px;
+    font-weight: 600;
+    text-shadow: 0 0 6px rgba(144,136,88,.3);
+  }
+  .slot:hover .item-name { color: #d8cd8e; }
+  /* tooltip */
+  #tooltip {
+    position: fixed;
+    display: none;
+    z-index: 999;
+    pointer-events: none;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 30px rgba(0,0,0,.9);
+    background: #000;
+  }
+  #tooltip img { display: block; max-width: 380px; max-height: 70vh; }
+  footer {
+    text-align: center;
+    color: #50483a;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-top: 30px;
+  }
+  @media (hover: none) {
+    .hint-touch { display: block; }
+  }
+</style>
+</head>
+<body>
+<h1>裝 備 總 覽</h1>
+<div class="subtitle">— INFINITY BUILD —</div>
+
+<div class="container">
+  <section>
+    <h2>角色裝備</h2>
+    <div class="grid">
+      <div class="slot" data-img="獅鷲之眼權冠.png"><span class="slot-label">頭部</span><span class="item-name">獅鷲之眼權冠</span></div>
+      <div class="slot" data-img="蛇魔法師之皮龍皮甲.png"><span class="slot-label">身體</span><span class="item-name">蛇魔法師之皮龍皮甲</span></div>
+      <div class="slot" data-img="無限無形長戟（主手）.png"><span class="slot-label">主手</span><span class="item-name">無限無形長戟</span></div>
+      <div class="slot" data-img="戰爭召喚征戰法杖（副手）.png"><span class="slot-label">副手</span><span class="item-name">戰爭召喚征戰法杖</span></div>
+      <div class="slot" data-img="霜燃鋼鐵護手.png"><span class="slot-label">手套</span><span class="item-name">霜燃鋼鐵護手</span></div>
+      <div class="slot" data-img="蜘蛛之網.png"><span class="slot-label">腰帶</span><span class="item-name">蜘蛛之網</span></div>
+      <div class="slot" data-img="野獸護脛龍皮靴.png"><span class="slot-label">靴子</span><span class="item-name">野獸護脛龍皮靴</span></div>
+      <div class="slot" data-img="風暴標記護身符.png"><span class="slot-label">項鍊</span><span class="item-name">風暴標記護身符</span></div>
+      <div class="slot" data-img="喬丹之石戒指.png"><span class="slot-label">戒指 I</span><span class="item-name">喬丹之石戒指</span></div>
+      <div class="slot" data-img="石岩迴旋戒指.png"><span class="slot-label">戒指 II</span><span class="item-name">石岩迴旋戒指</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>咒符</h2>
+    <div class="grid">
+      <div class="slot" data-img="滅絕小符.png"><span class="slot-label">小咒符</span><span class="item-name">滅絕小符</span></div>
+      <div class="slot" data-img="地獄火炬.png"><span class="slot-label">大咒符</span><span class="item-name">地獄火炬</span></div>
+      <div class="slot" data-img="新生天堂裂擊.png"><span class="slot-label">特大咒符</span><span class="item-name">新生天堂裂擊</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>傭兵裝備</h2>
+    <div class="grid">
+      <div class="slot" data-img="傭兵無形治癒日冕之冠.png"><span class="slot-label">頭部</span><span class="item-name">治癒日冕之冠</span></div>
+      <div class="slot" data-img="傭兵無形榮耀之鍊統御者鎧甲.png"><span class="slot-label">身體</span><span class="item-name">榮耀之鍊統御者鎧甲</span></div>
+      <div class="slot" data-img="傭兵無形靈光巨型長柄斧.png"><span class="slot-label">武器</span><span class="item-name">靈光巨型長柄斧</span></div>
+    </div>
+  </section>
+
+  <footer>游標移至裝備上即顯示素質圖</footer>
+</div>
+
+<div id="tooltip"><img id="tooltip-img" src="" alt=""></div>
+
+<script>
+(function () {
+  var tip = document.getElementById('tooltip');
+  var tipImg = document.getElementById('tooltip-img');
+
+  function position(e) {
+    var pad = 18;
+    var w = tip.offsetWidth, h = tip.offsetHeight;
+    var x = e.clientX + pad, y = e.clientY + pad;
+    if (x + w > window.innerWidth - 8)  x = e.clientX - w - pad;
+    if (y + h > window.innerHeight - 8) y = Math.max(8, window.innerHeight - h - 8);
+    if (x < 8) x = 8;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  }
+
+  document.querySelectorAll('.slot').forEach(function (el) {
+    el.addEventListener('mouseenter', function (e) {
+      tipImg.src = encodeURI(el.dataset.img);
+      tip.style.display = 'block';
+      position(e);
+    });
+    el.addEventListener('mousemove', position);
+    el.addEventListener('mouseleave', function () {
+      tip.style.display = 'none';
+      tipImg.src = '';
+    });
+    // 觸控裝置：點擊切換
+    el.addEventListener('click', function (e) {
+      if (window.matchMedia('(hover: none)').matches) {
+        if (tip.style.display === 'block' && tipImg.src.indexOf(encodeURI(el.dataset.img)) !== -1) {
+          tip.style.display = 'none';
+        } else {
+          tipImg.src = encodeURI(el.dataset.img);
+          tip.style.display = 'block';
+          position(e);
+        }
+      }
+    });
+  });
+
+  // 預載圖片
+  document.querySelectorAll('.slot').forEach(function (el) {
+    var img = new Image();
+    img.src = encodeURI(el.dataset.img);
+  });
+})();
+</script>
+</body>
+</html>

@@ -90,38 +90,6 @@
     margin: 14px 0 0;
   }
 
-  /* 傭兵區 */
-  h2 {
-    color: var(--gold);
-    font-size: 20px;
-    letter-spacing: 4px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 8px;
-    margin: 48px 0 18px;
-  }
-  h2::before { content: "◆ "; color: #7a6a3f; }
-  .merc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-  }
-  .merc-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 14px 12px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color .15s, background .15s, box-shadow .15s;
-  }
-  .merc-card:hover {
-    border-color: var(--gold);
-    background: #1f1a14;
-    box-shadow: 0 0 10px rgba(199,179,119,.2);
-  }
-  .merc-slot { color: #7d7460; font-size: 12px; letter-spacing: 2px; margin-bottom: 6px; }
-  .merc-name { color: var(--gold); font-size: 15px; letter-spacing: 1px; line-height: 1.5; }
-
   /* Tooltip */
   #tooltip {
     position: fixed;
@@ -145,37 +113,22 @@
   <div class="tabs">
     <button class="tab active" id="tabMain" onclick="switchView('main')">主&nbsp;手</button>
     <button class="tab" id="tabOff" onclick="switchView('off')">副&nbsp;手</button>
+    <button class="tab" id="tabMerc" onclick="switchView('merc')">傭&nbsp;兵</button>
   </div>
 
   <div class="stage" id="stage">
     <img class="base" id="baseImg" src="主手.png" alt="裝備實圖">
   </div>
   <div class="hint">※ 點擊頁面空白處可關閉裝備資料（觸控裝置請點選裝備格）</div>
-
-  <h2>傭兵裝備</h2>
-  <div class="merc-grid">
-    <div class="merc-card" data-img="傭兵無形治癒日冕之冠.png">
-      <div class="merc-slot">頭　盔</div>
-      <div class="merc-name">無形治癒・日冕之冠</div>
-    </div>
-    <div class="merc-card" data-img="傭兵無形榮耀之鍊統御者鎧甲.png">
-      <div class="merc-slot">鎧　甲</div>
-      <div class="merc-name">無形榮耀之鍊・統御者鎧甲</div>
-    </div>
-    <div class="merc-card" data-img="傭兵無形靈光巨型長柄斧.png">
-      <div class="merc-slot">武　器</div>
-      <div class="merc-name">無形靈光・巨型長柄斧</div>
-    </div>
-  </div>
 </div>
 
 <div id="tooltip"><img id="tooltipImg" src="" alt="裝備資料"></div>
 
 <script>
-// 原圖尺寸 773 x 1003，熱區座標以原圖像素定義，轉為百分比定位
-const IMG_W = 773, IMG_H = 1003;
+// 熱區座標以各原圖像素定義，轉為百分比定位
+// 主手/副手圖：773 x 1003；傭兵圖：580 x 754
 
-// 共同裝備格（兩張實圖位置相同）
+// 主手/副手共同裝備格（兩張實圖位置相同）
 const commonZones = [
   { name: '頭盔・獅鷲之眼權冠',       img: '獅鷲之眼權冠.png',       box: [302,108,460,238] },
   { name: '項鍊・風暴標記護身符',     img: '風暴標記護身符.png',     box: [453,232,530,312] },
@@ -190,17 +143,34 @@ const commonZones = [
   { name: '大咒符・地獄火炬',         img: '地獄火炬.png',           box: [638,750,697,832] },
 ];
 
-// 武器格依視圖不同
-const weaponZones = {
-  main: [
-    { name: '主手武器・無限（長戟）', img: '無限無形長戟（主手）.png', box: [55,150,238,455] },
-    { name: '主手武器・無限（長戟）', img: '無限無形長戟（主手）.png', box: [558,145,742,418] },
-  ],
-  off: [
-    { name: '副手武器・戰爭召喚（征戰法杖）', img: '戰爭召喚征戰法杖（副手）.png', box: [55,150,238,455] },
-    { name: '副手武器・戰爭召喚（征戰法杖）', img: '戰爭召喚征戰法杖（副手）.png', box: [558,145,742,418] },
-  ],
+// 各視圖設定：底圖、原圖尺寸、熱區
+const views = {
+  main: {
+    src: '主手.png', w: 773, h: 1003,
+    zones: [...[
+      { name: '主手武器・無限（長戟）', img: '無限無形長戟（主手）.png', box: [55,150,238,455] },
+      { name: '主手武器・無限（長戟）', img: '無限無形長戟（主手）.png', box: [558,145,742,418] },
+    ]],
+  },
+  off: {
+    src: '副手.png', w: 773, h: 1003,
+    zones: [...[
+      { name: '副手武器・戰爭召喚（征戰法杖）', img: '戰爭召喚征戰法杖（副手）.png', box: [55,150,238,455] },
+      { name: '副手武器・戰爭召喚（征戰法杖）', img: '戰爭召喚征戰法杖（副手）.png', box: [558,145,742,418] },
+    ]],
+  },
+  merc: {
+    src: '傭兵.png', w: 580, h: 754,
+    zones: [
+      { name: '傭兵頭盔・無形治癒日冕之冠',   img: '傭兵無形治癒日冕之冠.png',       box: [208,82,330,200] },
+      { name: '傭兵鎧甲・無形榮耀之鍊統御者', img: '傭兵無形榮耀之鍊統御者鎧甲.png', box: [208,210,332,392] },
+      { name: '傭兵武器・無形靈光巨型長柄斧', img: '傭兵無形靈光巨型長柄斧.png',     box: [33,158,150,360] },
+      { name: '傭兵武器・無形靈光巨型長柄斧', img: '傭兵無形靈光巨型長柄斧.png',     box: [388,150,558,388] },
+    ],
+  },
 };
+views.main.zones = [...commonZones, ...views.main.zones];
+views.off.zones  = [...commonZones, ...views.off.zones];
 
 const stage = document.getElementById('stage');
 const baseImg = document.getElementById('baseImg');
@@ -211,15 +181,15 @@ let pinned = false; // 觸控點選後固定顯示
 
 function buildHotspots() {
   stage.querySelectorAll('.hotspot').forEach(el => el.remove());
-  const zones = [...commonZones, ...weaponZones[currentView]];
-  zones.forEach(z => {
+  const v = views[currentView];
+  v.zones.forEach(z => {
     const [x1, y1, x2, y2] = z.box;
     const el = document.createElement('div');
     el.className = 'hotspot';
-    el.style.left   = (x1 / IMG_W * 100) + '%';
-    el.style.top    = (y1 / IMG_H * 100) + '%';
-    el.style.width  = ((x2 - x1) / IMG_W * 100) + '%';
-    el.style.height = ((y2 - y1) / IMG_H * 100) + '%';
+    el.style.left   = (x1 / v.w * 100) + '%';
+    el.style.top    = (y1 / v.h * 100) + '%';
+    el.style.width  = ((x2 - x1) / v.w * 100) + '%';
+    el.style.height = ((y2 - y1) / v.h * 100) + '%';
     el.title = '';
     el.addEventListener('mouseenter', e => showTip(z.img, e));
     el.addEventListener('mousemove',  e => moveTip(e));
@@ -231,9 +201,10 @@ function buildHotspots() {
 
 function switchView(v) {
   currentView = v;
-  baseImg.src = v === 'main' ? '主手.png' : '副手.png';
+  baseImg.src = views[v].src;
   document.getElementById('tabMain').classList.toggle('active', v === 'main');
   document.getElementById('tabOff').classList.toggle('active', v === 'off');
+  document.getElementById('tabMerc').classList.toggle('active', v === 'merc');
   hideTip(); pinned = false;
   buildHotspots();
 }
@@ -257,15 +228,6 @@ function moveTip(e) {
 }
 
 function hideTip() { tooltip.style.display = 'none'; }
-
-// 傭兵卡片
-document.querySelectorAll('.merc-card').forEach(card => {
-  const src = card.dataset.img;
-  card.addEventListener('mouseenter', e => showTip(src, e));
-  card.addEventListener('mousemove',  e => moveTip(e));
-  card.addEventListener('mouseleave', () => { if (!pinned) hideTip(); });
-  card.addEventListener('click', e => { e.stopPropagation(); pinned = true; showTip(src, e); });
-});
 
 // 點空白處關閉固定的 tooltip
 document.body.addEventListener('click', () => { pinned = false; hideTip(); });

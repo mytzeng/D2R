@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinity 裝備實圖檢視</title>
+<style>
+  :root {
+    --gold: #c7b377;
+    --bg: #0a0a0a;
+    --panel: #161210;
+    --border: #3d3120;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    background-image: radial-gradient(ellipse at 50% 0%, #1c1410 0%, #0a0a0a 70%);
+    color: #d0c8b0;
+    font-family: "Noto Sans TC", -apple-system, "Microsoft JhengHei", sans-serif;
+    min-height: 100vh;
+    padding: 32px 16px 80px;
+  }
+  h1 {
+    text-align: center;
+    color: var(--gold);
+    font-size: 30px;
+    letter-spacing: 8px;
+    margin-bottom: 6px;
+    text-shadow: 0 0 12px rgba(199,179,119,.4);
+  }
+  .subtitle {
+    text-align: center;
+    color: #6b6353;
+    font-size: 13px;
+    letter-spacing: 3px;
+    margin-bottom: 28px;
+  }
+  .container { max-width: 640px; margin: 0 auto; }
+
+  /* 主手/副手 切換 */
+  .tabs { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; }
+  .tab {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: #8a7f63;
+    font-size: 16px;
+    letter-spacing: 6px;
+    padding: 10px 36px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: inherit;
+    transition: all .15s;
+  }
+  .tab:hover { border-color: var(--gold); color: var(--gold); }
+  .tab.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: #221c12;
+    box-shadow: 0 0 12px rgba(199,179,119,.25);
+  }
+
+  /* 實圖區 */
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 580px;
+    margin: 0 auto;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .stage img.base { display: block; width: 100%; height: auto; }
+  .hotspot {
+    position: absolute;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    transition: border-color .12s, background .12s, box-shadow .12s;
+  }
+  .hotspot:hover {
+    border-color: var(--gold);
+    background: rgba(199,179,119,.10);
+    box-shadow: 0 0 10px rgba(199,179,119,.45), inset 0 0 8px rgba(199,179,119,.15);
+  }
+  .hint {
+    text-align: center;
+    color: #6b6353;
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin: 14px 0 0;
+  }
+
+  /* 傭兵區 */
+  h2 {
+    color: var(--gold);
+    font-size: 20px;
+    letter-spacing: 4px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin: 48px 0 18px;
+  }
+  h2::before { content: "◆ "; color: #7a6a3f; }
+  .merc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .merc-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, box-shadow .15s;
+  }
+  .merc-card:hover {
+    border-color: var(--gold);
+    background: #1f1a14;
+    box-shadow: 0 0 10px rgba(199,179,119,.2);
+  }
+  .merc-slot { color: #7d7460; font-size: 12px; letter-spacing: 2px; margin-bottom: 6px; }
+  .merc-name { color: var(--gold); font-size: 15px; letter-spacing: 1px; line-height: 1.5; }
+
+  /* Tooltip */
+  #tooltip {
+    position: fixed;
+    z-index: 999;
+    display: none;
+    pointer-events: none;
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    background: #000;
+    box-shadow: 0 4px 24px rgba(0,0,0,.85), 0 0 14px rgba(199,179,119,.25);
+    padding: 2px;
+  }
+  #tooltip img { display: block; max-width: min(440px, 90vw); max-height: 80vh; height: auto; }
+</style>
+</head>
+<body>
+<h1>裝備實圖檢視</h1>
+<div class="subtitle">INFINITY BUILD · 滑鼠移至裝備格即顯示裝備資料</div>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab active" id="tabMain" onclick="switchView('main')">主&nbsp;手</button>
+    <button class="tab" id="tabOff" onclick="switchView('off')">副&nbsp;手</button>
+  </div>
+
+  <div class="stage" id="stage">
+    <img class="base" id="baseImg" src="主手.png" alt="裝備實圖">
+  </div>
+  <div class="hint">※ 點擊頁面空白處可關閉裝備資料（觸控裝置請點選裝備格）</div>
+
+  <h2>傭兵裝備</h2>
+  <div class="merc-grid">
+    <div class="merc-card" data-img="傭兵無形治癒日冕之冠.png">
+      <div class="merc-slot">頭　盔</div>
+      <div class="merc-name">無形治癒・日冕之冠</div>
+    </div>
+    <div class="merc-card" data-img="傭兵無形榮耀之鍊統御者鎧甲.png">
+      <div class="merc-slot">鎧　甲</div>
+      <div class="merc-name">無形榮耀之鍊・統御者鎧甲</div>
+    </div>
+    <div class="merc-card" data-img="傭兵無形靈光巨型長柄斧.png">
+      <div class="merc-slot">武　器</div>
+      <div class="merc-name">無形靈光・巨型長柄斧</div>
+    </div>
+  </div>
+</div>
+
+<div id="tooltip"><img id="tooltipImg" src="" alt="裝備資料"></div>
+
+<script>
+// 原圖尺寸 773 x 1003，熱區座標以原圖像素定義，轉為百分比定位
+const IMG_W = 773, IMG_H = 1003;
+
+// 共同裝備格（兩張實圖位置相同）
+const commonZones = [
+  { name: '頭盔・獅鷲之眼權冠',       img: '獅鷲之眼權冠.png',       box: [302,108,460,238] },
+  { name: '項鍊・風暴標記護身符',     img: '風暴標記護身符.png',     box: [453,232,530,312] },
+  { name: '鎧甲・蛇魔法師之皮',       img: '蛇魔法師之皮龍皮甲.png', box: [290,245,462,465] },
+  { name: '戒指・石岩旋迴',           img: '石岩迴旋戒指.png',       box: [222,505,286,585] },
+  { name: '戒指・喬丹之石',           img: '喬丹之石戒指.png',       box: [485,503,558,585] },
+  { name: '腰帶・蜘蛛之網',           img: '蜘蛛之網.png',           box: [300,505,455,585] },
+  { name: '手套・霜燃',               img: '霜燃鋼鐵護手.png',       box: [58,462,190,580] },
+  { name: '靴子・野獸護脛',           img: '野獸護脛龍皮靴.png',     box: [565,448,700,565] },
+  { name: '特大咒符・新生天堂裂擊',   img: '新生天堂裂擊.png',       box: [518,598,580,822] },
+  { name: '小咒符・滅絕',             img: '滅絕小符.png',           box: [592,727,638,793] },
+  { name: '大咒符・地獄火炬',         img: '地獄火炬.png',           box: [638,750,697,832] },
+];
+
+// 武器格依視圖不同
+const weaponZones = {
+  main: [
+    { name: '主手武器・無限（長戟）', img: '無限無形長戟（主手）.png', box: [55,150,238,455] },
+    { name: '主手武器・無限（長戟）', img: '無限無形長戟（主手）.png', box: [558,145,742,418] },
+  ],
+  off: [
+    { name: '副手武器・戰爭召喚（征戰法杖）', img: '戰爭召喚征戰法杖（副手）.png', box: [55,150,238,455] },
+    { name: '副手武器・戰爭召喚（征戰法杖）', img: '戰爭召喚征戰法杖（副手）.png', box: [558,145,742,418] },
+  ],
+};
+
+const stage = document.getElementById('stage');
+const baseImg = document.getElementById('baseImg');
+const tooltip = document.getElementById('tooltip');
+const tooltipImg = document.getElementById('tooltipImg');
+let currentView = 'main';
+let pinned = false; // 觸控點選後固定顯示
+
+function buildHotspots() {
+  stage.querySelectorAll('.hotspot').forEach(el => el.remove());
+  const zones = [...commonZones, ...weaponZones[currentView]];
+  zones.forEach(z => {
+    const [x1, y1, x2, y2] = z.box;
+    const el = document.createElement('div');
+    el.className = 'hotspot';
+    el.style.left   = (x1 / IMG_W * 100) + '%';
+    el.style.top    = (y1 / IMG_H * 100) + '%';
+    el.style.width  = ((x2 - x1) / IMG_W * 100) + '%';
+    el.style.height = ((y2 - y1) / IMG_H * 100) + '%';
+    el.title = '';
+    el.addEventListener('mouseenter', e => showTip(z.img, e));
+    el.addEventListener('mousemove',  e => moveTip(e));
+    el.addEventListener('mouseleave', () => { if (!pinned) hideTip(); });
+    el.addEventListener('click', e => { e.stopPropagation(); pinned = true; showTip(z.img, e); });
+    stage.appendChild(el);
+  });
+}
+
+function switchView(v) {
+  currentView = v;
+  baseImg.src = v === 'main' ? '主手.png' : '副手.png';
+  document.getElementById('tabMain').classList.toggle('active', v === 'main');
+  document.getElementById('tabOff').classList.toggle('active', v === 'off');
+  hideTip(); pinned = false;
+  buildHotspots();
+}
+
+function showTip(src, e) {
+  tooltipImg.src = src;
+  tooltip.style.display = 'block';
+  moveTip(e);
+}
+
+function moveTip(e) {
+  const pad = 18;
+  const w = tooltip.offsetWidth, h = tooltip.offsetHeight;
+  let x = e.clientX + pad, y = e.clientY + pad;
+  if (x + w > window.innerWidth - 8)  x = e.clientX - w - pad;
+  if (y + h > window.innerHeight - 8) y = window.innerHeight - h - 8;
+  if (x < 8) x = 8;
+  if (y < 8) y = 8;
+  tooltip.style.left = x + 'px';
+  tooltip.style.top  = y + 'px';
+}
+
+function hideTip() { tooltip.style.display = 'none'; }
+
+// 傭兵卡片
+document.querySelectorAll('.merc-card').forEach(card => {
+  const src = card.dataset.img;
+  card.addEventListener('mouseenter', e => showTip(src, e));
+  card.addEventListener('mousemove',  e => moveTip(e));
+  card.addEventListener('mouseleave', () => { if (!pinned) hideTip(); });
+  card.addEventListener('click', e => { e.stopPropagation(); pinned = true; showTip(src, e); });
+});
+
+// 點空白處關閉固定的 tooltip
+document.body.addEventListener('click', () => { pinned = false; hideTip(); });
+
+buildHotspots();
+</script>
+</body>
+</html>

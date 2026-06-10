@@ -38,7 +38,43 @@
     letter-spacing: 3px;
     margin-bottom: 40px;
   }
-  .container { max-width: 980px; margin: 0 auto; }
+  .page-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .avatar-col {
+    flex: 0 0 auto;
+    position: sticky;
+    top: 20px;
+  }
+  .avatar-col img {
+    display: block;
+  }
+  .content-col {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  @media (max-width: 768px) {
+    .page-layout {
+      flex-direction: column;
+      align-items: center;
+      padding: 0 12px;
+    }
+    .avatar-col {
+      position: static;
+      width: 100%;
+      text-align: center;
+    }
+    .avatar-col img {
+      height: auto !important;
+      max-width: 100%;
+    }
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
   section { margin-bottom: 44px; }
   h2 {
     color: var(--gold);
@@ -157,10 +193,12 @@
 </style>
 </head>
 <body>
-<div style="text-align:center; margin-bottom:16px;">
-  <img src="頭像.png" alt="角色頭像" style="height:600px; border:1px solid var(--border); border-radius:4px; box-shadow:0 0 16px rgba(199,179,119,.25);">
-</div>
 <div class="subtitle">— INFINITY BUILD —</div>
+<div class="page-layout">
+  <div class="avatar-col">
+    <img src="頭像.png" alt="角色頭像" style="height:800px; border:1px solid var(--border); border-radius:4px; box-shadow:0 0 16px rgba(199,179,119,.25);">
+  </div>
+  <div class="content-col">
 
 <div class="container">
   <section>
@@ -224,8 +262,10 @@
     </div>
   </section>
 
-  <footer>桌機：游標移至裝備上顯示素質圖　·　手機：點一下裝備顯示，再點一下關閉</footer>
 </div>
+  </div><!-- end content-col -->
+</div><!-- end page-layout -->
+<footer>桌機：游標移至裝備上顯示素質圖　·　手機：點一下裝備顯示，再點一下關閉</footer>
 
 <div id="backdrop"></div>
 <div id="tooltip"><img id="tooltip-img" src="" alt=""></div>

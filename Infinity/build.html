@@ -40,7 +40,7 @@
   }
   .page-layout {
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 32px;
     max-width: 1600px;
     margin: 0 auto;
@@ -48,11 +48,13 @@
   }
   .avatar-col {
     flex: 0 0 auto;
-    position: sticky;
-    top: 20px;
+    display: flex;
+    align-items: flex-start;
   }
   .avatar-col img {
     display: block;
+    width: auto;
+    object-fit: contain;
   }
   .content-col {
     flex: 1 1 0;
@@ -76,6 +78,7 @@
   }
   .container { max-width: 1200px; margin: 0 auto; }
   section { margin-bottom: 44px; }
+  .content-col section:last-child { margin-bottom: 0; }
   h2 {
     color: var(--gold);
     font-size: 20px;
@@ -196,7 +199,7 @@
 <div class="subtitle">— INFINITY BUILD —</div>
 <div class="page-layout">
   <div class="avatar-col">
-    <img src="頭像.png" alt="角色頭像" style="height:800px; border:1px solid var(--border); border-radius:4px; box-shadow:0 0 16px rgba(199,179,119,.25);">
+    <img src="頭像.png" alt="角色頭像" style="border:1px solid var(--border); border-radius:4px; box-shadow:0 0 16px rgba(199,179,119,.25);">
   </div>
   <div class="content-col">
 
@@ -207,6 +210,7 @@
       <div class="stat-block">
         <div class="stat-row"><span class="stat-label">生命（BO 後）</span><span class="stat-val life">1,319</span></div>
         <div class="stat-row"><span class="stat-label">法力（BO 後）</span><span class="stat-val mana">3,981</span></div>
+        <div class="stat-row"><span class="stat-label">防禦（BO 後）</span><span class="stat-val">3,522</span></div>
       </div>
       <div class="stat-block">
         <div class="stat-row"><span class="stat-label">傷害降低</span><span class="stat-val">10</span></div>
@@ -338,6 +342,22 @@
     var img = new Image();
     img.src = encodeURI(el.dataset.img);
   });
+
+  // ---- 桌機：頭像動態縮放，使其高度等於右側內容欄（角色屬性上緣 → 傭兵裝備下緣）----
+  var avatarImg = document.querySelector('.avatar-col img');
+  var contentCol = document.querySelector('.content-col');
+  function syncAvatarHeight() {
+    if (!avatarImg || !contentCol) return;
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      avatarImg.style.height = '';   // 手機版交還給 CSS
+    } else {
+      avatarImg.style.height = contentCol.offsetHeight + 'px';
+    }
+  }
+  window.addEventListener('resize', syncAvatarHeight);
+  window.addEventListener('load', syncAvatarHeight);
+  if (avatarImg && !avatarImg.complete) avatarImg.addEventListener('load', syncAvatarHeight);
+  syncAvatarHeight();
 })();
 </script>
 </body>

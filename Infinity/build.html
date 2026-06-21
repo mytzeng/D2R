@@ -40,7 +40,7 @@
   }
   .page-layout {
     display: flex;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 32px;
     max-width: 1600px;
     margin: 0 auto;
@@ -351,9 +351,11 @@
     if (!avatarImg || !contentCol) return;
     if (window.matchMedia('(max-width: 768px)').matches) {
       avatarImg.style.height = '';   // 手機版交還給 CSS
-    } else {
-      avatarImg.style.height = contentCol.offsetHeight + 'px';
+      return;
     }
+    // 先把頭像縮到最小，避免（圖片已快取時）原始尺寸撐大版面導致量到錯誤高度
+    avatarImg.style.height = '1px';
+    avatarImg.style.height = contentCol.offsetHeight + 'px';
   }
   window.addEventListener('resize', syncAvatarHeight);
   window.addEventListener('load', syncAvatarHeight);

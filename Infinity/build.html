@@ -112,7 +112,7 @@
     }
   }
   .slot-label {
-    flex: 0 0 64px;
+    flex: 0 0 100px;
     color: #7d7460;
     font-size: 13px;
     letter-spacing: 2px;
@@ -170,7 +170,7 @@
     box-shadow: 0 4px 30px rgba(0,0,0,.9);
     background: #000;
   }
-  #tooltip img { display: block; max-width: 380px; max-height: 70vh; }
+  #tooltip img { display: block; width: auto; height: auto; }
   /* 觸控裝置：置中燈箱顯示 */
   #backdrop {
     position: fixed; inset: 0; z-index: 998;
@@ -182,7 +182,7 @@
     transform: translate(-50%, -50%);
     pointer-events: auto;
   }
-  #tooltip.centered img { max-width: 92vw; max-height: 86vh; }
+  #tooltip.centered img { width: auto; height: auto; max-width: 92vw; max-height: 86vh; }
   footer {
     text-align: center;
     color: #50483a;
@@ -296,8 +296,15 @@
     tip.style.left = x + 'px';
     tip.style.top = y + 'px';
   }
-  // 圖片載入完成後重新定位（修正尺寸尚未確定時跑版／看不到的問題）
+  // 圖片載入完成後：依自然尺寸顯示，超出視窗時等比縮小，然後重新定位
   tipImg.addEventListener('load', function () {
+    var maxW = window.innerWidth  * 0.88;
+    var maxH = window.innerHeight * 0.70;
+    var nw = tipImg.naturalWidth;
+    var nh = tipImg.naturalHeight;
+    var scale = Math.min(1, maxW / nw, maxH / nh);
+    tipImg.style.width  = Math.round(nw * scale) + 'px';
+    tipImg.style.height = Math.round(nh * scale) + 'px';
     if (tip.style.display === 'block' && !tip.classList.contains('centered')) position();
   });
 
@@ -318,7 +325,7 @@
   tip.addEventListener('click', closeCentered);
 
   document.querySelectorAll('.slot').forEach(function (el) {
-    var src = encodeURI(el.dataset.img);
+    var src = el.dataset.img.replace(/ /g, '%20');
     if (isTouch) {
       el.addEventListener('click', function () {
         var open = tip.style.display === 'block' && tipImg.src.indexOf(src) !== -1;
@@ -341,7 +348,7 @@
   // 預載圖片
   document.querySelectorAll('.slot').forEach(function (el) {
     var img = new Image();
-    img.src = encodeURI(el.dataset.img);
+    img.src = el.dataset.img.replace(/ /g, '%20');
   });
 
   // ---- 桌機：頭像動態縮放，使其高度等於右側內容欄（角色屬性上緣 → 傭兵裝備下緣）----

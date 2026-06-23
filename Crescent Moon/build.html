@@ -40,7 +40,7 @@
   }
   .page-layout {
     display: flex;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 32px;
     max-width: 1600px;
     margin: 0 auto;
@@ -112,7 +112,8 @@
     }
   }
   .slot-label {
-    flex: 0 0 64px;
+    flex: 0 0 auto;
+    white-space: nowrap;
     color: #7d7460;
     font-size: 13px;
     letter-spacing: 2px;
@@ -170,7 +171,7 @@
     box-shadow: 0 4px 30px rgba(0,0,0,.9);
     background: #000;
   }
-  #tooltip img { display: block; max-width: 380px; max-height: 70vh; }
+  #tooltip img { display: block; width: auto; height: auto; }
   /* 觸控裝置：置中燈箱顯示 */
   #backdrop {
     position: fixed; inset: 0; z-index: 998;
@@ -182,7 +183,7 @@
     transform: translate(-50%, -50%);
     pointer-events: auto;
   }
-  #tooltip.centered img { max-width: 92vw; max-height: 86vh; }
+  #tooltip.centered img { width: auto; height: auto; max-width: 92vw; max-height: 86vh; }
   footer {
     text-align: center;
     color: #50483a;
@@ -208,10 +209,10 @@
     <h2>角色屬性</h2>
     <div class="stats-grid">
       <div class="stat-block">
-        <div class="stat-row"><span class="stat-label">等級</span><span class="stat-val">97</span></div>
-        <div class="stat-row"><span class="stat-label">生命（BO 後）</span><span class="stat-val life">1,361</span></div>
-        <div class="stat-row"><span class="stat-label">法力（BO 後）</span><span class="stat-val mana">4,409</span></div>
-        <div class="stat-row"><span class="stat-label">防禦（BO 後）</span><span class="stat-val">1,984</span></div>
+        <div class="stat-row"><span class="stat-label">等級</span><span class="stat-val">98</span></div>
+        <div class="stat-row"><span class="stat-label">生命（自 BO 後）</span><span class="stat-val life">1,433</span></div>
+        <div class="stat-row"><span class="stat-label">法力（自 BO 後）</span><span class="stat-val mana">4,644</span></div>
+        <div class="stat-row"><span class="stat-label">防禦（自 BO 後）</span><span class="stat-val">4,067</span></div>
       </div>
       <div class="stat-block">
         <div class="stat-row"><span class="stat-label">物理傷害降低</span><span class="stat-val">10</span></div>
@@ -220,10 +221,10 @@
         <div class="stat-row"><span class="stat-label">敵人電擊抗性</span><span class="stat-val curse">-75%</span></div>
       </div>
       <div class="stat-block">
-        <div class="stat-row"><span class="stat-label">跑步 / 行走速度</span><span class="stat-val bonus">+75%</span></div>
-        <div class="stat-row"><span class="stat-label">打擊恢復</span><span class="stat-val bonus">+97%</span></div>
+        <div class="stat-row"><span class="stat-label">跑步 / 行走速度</span><span class="stat-val bonus">75%</span></div>
+        <div class="stat-row"><span class="stat-label">打擊恢復</span><span class="stat-val bonus">+87%</span></div>
         <div class="stat-row"><span class="stat-label">施法速度</span><span class="stat-val bonus">+110%</span></div>
-        <div class="stat-row"><span class="stat-label">中毒時效縮短</span><span class="stat-val bonus">75%</span></div>
+        <div class="stat-row"><span class="stat-label">中毒時效縮短</span><span class="stat-val bonus">0</span></div>
       </div>
       <div class="stat-block">
         <div class="stat-row"><span class="stat-label">毒抗</span><span class="stat-val res-poison">178%</span></div>
@@ -245,7 +246,7 @@
       <div class="slot" data-img="霜燃鋼鐵護手.png"><span class="slot-label">手套</span><span class="item-name">霜燃鋼鐵護手</span></div>
       <div class="slot" data-img="蜘蛛之網.png"><span class="slot-label">腰帶</span><span class="item-name">蜘蛛之網</span></div>
       <div class="slot" data-img="野獸護脛龍皮靴.png"><span class="slot-label">靴子</span><span class="item-name">野獸護脛龍皮靴</span></div>
-      <div class="slot" data-img="風暴標記護身符.png"><span class="slot-label">項鍊</span><span class="item-name">風暴標記護身符</span></div>
+      <div class="slot" data-img="骸骨頸甲護身符.png"><span class="slot-label">項鍊</span><span class="item-name">骸骨頸甲護身符</span></div>
       <div class="slot" data-img="喬丹之石戒指.png"><span class="slot-label">戒指 I</span><span class="item-name">喬丹之石戒指</span></div>
       <div class="slot" data-img="石岩迴旋戒指.png"><span class="slot-label">戒指 II</span><span class="item-name">石岩迴旋戒指</span></div>
     </div>
@@ -263,9 +264,10 @@
   <section>
     <h2>傭兵裝備</h2>
     <div class="grid">
-      <div class="slot" data-img="傭兵無形治癒日冕之冠.png"><span class="slot-label">頭部</span><span class="item-name">治癒日冕之冠</span></div>
-      <div class="slot" data-img="傭兵無形榮耀之鍊統御者鎧甲.png"><span class="slot-label">身體</span><span class="item-name">榮耀之鍊統御者鎧甲</span></div>
-      <div class="slot" data-img="傭兵無形靈光巨型斬鐮.png"><span class="slot-label">武器</span><span class="item-name">靈光巨型斬鐮</span></div>
+      <div class="slot" data-img="傭兵無形吸血鬼的凝視.png"><span class="slot-label">頭部</span><span class="item-name">吸血鬼的凝視</span></div>
+      <div class="slot" data-img="傭兵無形箭止.png"><span class="slot-label">身體</span><span class="item-name">箭止</span></div>
+      <div class="slot" data-img="傭兵無形瘟疫秘儀劍（傭兵右手）.png"><span class="slot-label">右手</span><span class="item-name">瘟疫秘儀劍</span></div>
+      <div class="slot" data-img="傭兵無形瘟疫秘儀劍（傭兵左手）.png"><span class="slot-label">左手</span><span class="item-name">瘟疫秘儀劍</span></div>
     </div>
   </section>
 
@@ -298,8 +300,15 @@
     tip.style.left = x + 'px';
     tip.style.top = y + 'px';
   }
-  // 圖片載入完成後重新定位（修正尺寸尚未確定時跑版／看不到的問題）
+  // 圖片載入完成後：依自然尺寸顯示，超出視窗時等比縮小，然後重新定位
   tipImg.addEventListener('load', function () {
+    var maxW = window.innerWidth  * 0.88;
+    var maxH = window.innerHeight * 0.70;
+    var nw = tipImg.naturalWidth;
+    var nh = tipImg.naturalHeight;
+    var scale = Math.min(1, maxW / nw, maxH / nh);
+    tipImg.style.width  = Math.round(nw * scale) + 'px';
+    tipImg.style.height = Math.round(nh * scale) + 'px';
     if (tip.style.display === 'block' && !tip.classList.contains('centered')) position();
   });
 
@@ -320,7 +329,7 @@
   tip.addEventListener('click', closeCentered);
 
   document.querySelectorAll('.slot').forEach(function (el) {
-    var src = encodeURI(el.dataset.img);
+    var src = el.dataset.img.replace(/ /g, '%20');
     if (isTouch) {
       el.addEventListener('click', function () {
         var open = tip.style.display === 'block' && tipImg.src.indexOf(src) !== -1;
@@ -343,7 +352,7 @@
   // 預載圖片
   document.querySelectorAll('.slot').forEach(function (el) {
     var img = new Image();
-    img.src = encodeURI(el.dataset.img);
+    img.src = el.dataset.img.replace(/ /g, '%20');
   });
 
   // ---- 桌機：頭像動態縮放，使其高度等於右側內容欄（角色屬性上緣 → 傭兵裝備下緣）----
@@ -353,9 +362,11 @@
     if (!avatarImg || !contentCol) return;
     if (window.matchMedia('(max-width: 768px)').matches) {
       avatarImg.style.height = '';   // 手機版交還給 CSS
-    } else {
-      avatarImg.style.height = contentCol.offsetHeight + 'px';
+      return;
     }
+    // 先把頭像縮到最小，避免（圖片已快取時）原始尺寸撐大版面導致量到錯誤高度
+    avatarImg.style.height = '1px';
+    avatarImg.style.height = contentCol.offsetHeight + 'px';
   }
   window.addEventListener('resize', syncAvatarHeight);
   window.addEventListener('load', syncAvatarHeight);
